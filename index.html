@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVNet - Intelligent CV Filtering System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <style>
+        :root {
+            --dark-blue: #0a192f;
+            --medium-blue: #172a45;
+            --light-blue: #303f60;
+            --accent-blue: #64ffda;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(10, 25, 47, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .logo span {
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: linear-gradient(to bottom right, var(--dark-blue), var(--medium-blue));
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--accent-blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-filled {
+            background: var(--accent-blue);
+            color: var(--dark-blue);
+        }
+
+        .btn-filled:hover {
+            background: var(--accent-blue);
+            opacity: 0.9;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent-blue);
+        }
+
+        /* Project Overview */
+        .project-overview {
+            background-color: var(--medium-blue);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light-blue);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background-color: var(--dark-blue);
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .step-number {
+            background-color: var(--accent-blue);
+            color: var(--dark-blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            background-color: var(--medium-blue);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            background-color: var(--light-blue);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        /* System Architecture */
+        .system-architecture {
+            background-color: var(--dark-blue);
+        }
+
+        .diagrams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .diagram-card {
+            background-color: var(--light-blue);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .diagram-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(100, 255, 218, 0.2);
+        }
+
+        .diagram-image {
+            height: 200px;
+            background-color: var(--medium-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-image::after {
+            content: 'Click to View';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+        }
+
+        .diagram-card:hover .diagram-image::after {
+            opacity: 1;
+        }
+
+        .diagram-content {
+            padding: 20px;
+        }
+
+        .diagram-content h3 {
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .diagram-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Diagram Modal */
+        .diagram-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--medium-blue);
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-info {
+            padding: 20px;
+        }
+
+        .modal-info h3 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .modal-info p {
+            color: var(--text-secondary);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-blue);
+            color: var(--dark-blue);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.1);
+        }
+
+        /* Team Section */
+        .team {
+            background-color: var(--medium-blue);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            text-align: center;
+            background-color: var(--light-blue);
+            padding: 30px 20px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-color: var(--medium-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .member-email {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--light-blue);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .supervisor-info, .mentor-info {
+            background-color: var(--light-blue);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-blue);
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark-blue);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .diagrams-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container nav-container">
+            <div class="logo">CV<span>Net</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#tech">Technology</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text fade-in">
+                <h1>Revolutionizing Recruitment with <span>CVNet</span></h1>
+                <p>An intelligent CV filtering system that streamlines the hiring process through automated candidate ranking and API-driven integration.</p>
+                <div class="hero-buttons">
+                    <a href="#overview" class="btn btn-filled">Learn More</a>
+                    <a href="#architecture" class="btn">View Architecture</a>
+                </div>
+            </div>
+            <div class="hero-image slide-up">
+                <div style="width: 100%; height: 400px; background: var(--light-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-filter" style="font-size: 8rem; color: var(--accent-blue);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section id="overview" class="project-overview">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Dual Interface System</h3>
+                    <p>Separate portals for job seekers and companies with tailored functionalities for each user type.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Smart CV Filtering</h3>
+                    <p>Advanced algorithms to filter and rank candidates based on GPA, skills, university, and other criteria.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>API Integration</h3>
+                    <p>Companies receive custom APIs for seamless CV collection and integration with their existing systems.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notification System</h3>
+                    <p>Real-time notifications for users about application status and for companies about new candidates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-container">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Dual Login System</h3>
+                        <p>Users can register/login as either individuals (job seekers) or companies (employers) with separate interfaces tailored to their needs.</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Individual Profile Management</h3>
+                        <p>Job seekers can create and manage their profiles, upload CVs, add personal details, and track their applications.</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Company Task Creation</h3>
+                        <p>Companies can create new recruitment tasks, each generating a unique API endpoint for CV collection.</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Smart CV Filtering</h3>
+                        <p>Companies can filter received CVs using multiple criteria like GPA, university, skills, age, and experience level.</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Seamless Integration</h3>
+                        <p>External company websites can integrate our CV collection system through provided APIs with popup authentication.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="tech" class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fab fa-js-square"></i>
+                    </div>
+                    <h4>Next.js</h4>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h4>Node.js</h4>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h4>MongoDB</h4>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h4>Python</h4>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>REST API</h4>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h4>AWS</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Architecture -->
+    <section id="architecture" class="system-architecture">
+        <div class="container">
+            <h2 class="section-title">System Architecture</h2>
+            <div class="diagrams-grid">
+                <div class="diagram-card fade-in" onclick="openModal('system-arch')">
+                    <div class="diagram-image">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="diagram-content">
+                        <h3>System Architecture Diagram</h3>
+                        <p>Illustrates the overall structure of CVNet, showing how different components interact including the frontend, backend, database, and external integrations.</p>
+                    </div>
+                </div>
+                <div class="diagram-card fade-in" onclick="openModal('data-flow')">
+                    <div class="diagram-image">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="diagram-content">
+                        <h3>Data Flow Diagram</h3>
+                        <p>Shows how data moves through the system from user registration to CV filtering and API integrations with external company systems.</p>
+                    </div>
+                </div>
+                <div class="diagram-card fade-in" onclick="openModal('user-journey')">
+                    <div class="diagram-image">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <div class="diagram-content">
+                        <h3>User Journey Map</h3>
+                        <p>Visualizes the complete user experience for both job seekers and companies, highlighting key interactions and decision points.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagram Modals -->
+    <div id="system-arch-modal" class="diagram-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://via.placeholder.com/800x600.png?text=System+Architecture+Diagram" alt="System Architecture Diagram" class="modal-image">
+            <div class="modal-info">
+                <h3>System Architecture Diagram</h3>
+                <p>This diagram illustrates the complete system architecture of CVNet, showing the interaction between frontend (Next.js), backend (Node.js), database (MongoDB), and external API integrations.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="data-flow-modal" class="diagram-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://via.placeholder.com/800x600.png?text=Data+Flow+Diagram" alt="Data Flow Diagram" class="modal-image">
+            <div class="modal-info">
+                <h3>Data Flow Diagram</h3>
+                <p>This diagram shows how data flows through the CVNet system, from user registration and CV upload to filtering algorithms and company API integrations.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-journey-modal" class="diagram-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://via.placeholder.com/800x600.png?text=User+Journey+Map" alt="User Journey Map" class="modal-image">
+            <div class="modal-info">
+                <h3>User Journey Map</h3>
+                <p>This user journey map visualizes the complete experience for both job seekers and companies, highlighting key touchpoints and decision-making processes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <section id="team" class="team">
+        <div class="container">
+            <h2 class="section-title">Development Team</h2>
+            <div class="team-grid">
+                <div class="team-member fade-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>KUMARA K.H.A.N.N.</h3>
+                    <p>Full Stack Developer</p>
+                    <p class="member-email">22cis0332@sab.ms.ac.lk</p>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>WICKRAMASINGHE W.M.J.P.</h3>
+                    <p>Backend Developer</p>
+                    <p class="member-email">22cis0318@sab.ms.ac.lk</p>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>PRASADINI R.M.P.</h3>
+                    <p>Frontend Developer</p>
+                    <p class="member-email">22cis0321@sab.ms.ac.lk</p>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>RATHNAYAKA J.M.S.S.</h3>
+                    <p>UI/UX Designer</p>
+                    <p class="member-email">22cis0330@sab.ms.ac.lk</p>
+                </div>
+                <div class="team-member fade-in">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>WEERAPANA W.G.G.B.</h3>
+                    <p>Database Administrator</p>
+                    <p class="member-email">22cis0333@sab.ms.ac.lk</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About CVNet</h3>
+                    <p>CVNet is an intelligent CV filtering system developed as a capstone project to revolutionize the recruitment process through automated candidate ranking and seamless API integration.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Project Supervision</h3>
+                    <div class="supervisor-info">
+                        <h4>Project Supervisor</h4>
+                        <p>Dr. John Smith</p>
+                        <p>Professor of Computer Science</p>
+                        <p>University of Technology</p>
+                        <p>john.smith@university.edu</p>
+                    </div>
+                    <div class="mentor-info">
+                        <h4>Project Mentor</h4>
+                        <p>Ms. Sarah Johnson</p>
+                        <p>Senior Software Engineer</p>
+                        <p>Tech Solutions Inc.</p>
+                        <p>sarah.johnson@techsolutions.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 CVNet Capstone Project. All rights reserved. | Developed by Computer Science Students</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Diagram modal functions
+        function openModal(modalType) {
+            const modal = document.getElementById(`${modalType}-modal`);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('.diagram-modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the content
+        document.querySelectorAll('.diagram-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .step, .tech-item, .team-member, .diagram-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
